@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax-1st-tutorial</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container-fluid">
+
+        <h1 class="text-center mt-5">Feteching API using XMLHttpRequest</h1>
+    <div class="text-center py-5">
+        <button id="popbtn" class="btn btn-primary">Get Products Details</button>
+        <button id="popbtn1" class="btn btn-primary">Get Another Product Details</button>
+    </div>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody id="table">
+          <tr>
+            <td>Get the</td>
+            <td>details by clicking</td>
+            <td>on above buttons</td>
+          </tr>
+        
+        </tbody>
+      </table>
+    </div>
+    <script>
+        const xhr = new XMLHttpRequest();
+
+        let popbtn = document.getElementById('popbtn');
+        popbtn.addEventListener('click',pophandler);
+
+        
+
+        function pophandler(){
+        
+        xhr.open('GET','https://dummyjson.com/products',true);
+
+        xhr.onload = function(){
+            if(this.status === 200){
+                let obj = JSON.parse(this.response);
+                console.log(obj);
+                let tableData = "";
+                obj.products.map(values => {
+                    tableData += `<tr>
+                    <td>${values.title}</td>
+                    <td>${values.description}</td>
+                    <td>${values.price}</td>                    
+                </tr>`;
+
+            document.getElementById("table").innerHTML=tableData;
+
+                    })
+                }
+            }
+
+            xhr.send();
+
+        }
+
+        let popbtn1 = document.getElementById('popbtn1');
+        popbtn1.addEventListener('click',pophandler1);
+
+        function pophandler1(){
+            
+            xhr.open('GET','https://fakestoreapi.com/products', true);
+
+            xhr.onload = function(){
+                if(this.status === 200){
+                    let obj1 = JSON.parse(this.response);
+                    console.log(obj1);
+                    let tableData = "";
+                    obj1.map(values => {
+                        tableData += `<tr>
+                    <td>${values.title}</td>
+                    <td>${values.description}</td>
+                    <td>${values.price}</td>                    
+                </tr>`;
+
+            document.getElementById("table").innerHTML=tableData;
+                    })
+                }
+            }
+            xhr.send();
+        }
+
+
+    </script>
+</body>
+</html>
